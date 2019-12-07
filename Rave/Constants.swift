@@ -11,17 +11,17 @@ import Alamofire
 
 class Constants: NSObject {
     
-    class func baseURL () -> String{
+    public class func baseURL () -> String{
         // return "http://flw-pms-dev.eu-west-1.elasticbeanstalk.com"
         //return "https://ravesandboxapi.flutterwave.com"
         return "https://ravesandbox.azurewebsites.net"
     }
-    class func liveBaseURL() -> String{
+    public class func liveBaseURL() -> String{
         //return "https://api.ravepay.co"
         return "https://raveapi.azurewebsites.net"
     }
     
-    static let ghsMobileNetworks = [("MTN","Please Dial *170#, click on Pay and wait for instructions on the next screen",
+    public static let ghsMobileNetworks = [("MTN","Please Dial *170#, click on Pay and wait for instructions on the next screen",
                                      """
                                         Complete payment process
                                         1. Dial *170#
@@ -50,12 +50,12 @@ class Constants: NSObject {
                                     ("AIRTEL","","")]
     
     
-    class func isConnectedToInternet() ->Bool {
+    public class func isConnectedToInternet() ->Bool {
         return NetworkReachabilityManager()!.isReachable
     }
     
     
-    class func relativeURL()->Dictionary<String,String>{
+    public class func relativeURL()->Dictionary<String,String>{
         return [
             "CHARGE_CARD" :"/flwv3-pug/getpaidx/api/charge",
             "VALIDATE_CARD_OTP" :"/flwv3-pug/getpaidx/api/validatecharge",
@@ -70,7 +70,7 @@ class Constants: NSObject {
     }
     
     
-    class func headerConstants(_ headerParam:Dictionary<String,String>)->Dictionary<String,String> {
+    public class func headerConstants(_ headerParam:Dictionary<String,String>)->Dictionary<String,String> {
         
         return  headerParam
         

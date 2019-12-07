@@ -1,7 +1,7 @@
 PODS:
-  - Alamofire (4.5.1)
+  - Alamofire (5.0.0-rc.3)
   - BSErrorMessageView (1.1)
-  - CreditCardValidator (0.4)
+  - CreditCardValidator (0.5.0)
   - IQKeyboardManagerSwift (6.0.3)
   - KVNProgress (2.3.1)
   - PopupDialog (0.5.4)
@@ -9,49 +9,54 @@ PODS:
   - SwiftValidator (4.0.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.5.0)
+  - Alamofire (~> 5.0.0-rc.3)
   - BSErrorMessageView (from `https://github.com/BenjaminSarkisyan/BSErrorMessageView.git`)
-  - CreditCardValidator
+  - CreditCardValidator (from `https://github.com/vitkuzmenko/CreditCardValidator.git`)
   - IQKeyboardManagerSwift
   - KVNProgress (~> 2.3.1)
   - PopupDialog
   - Shimmer (~> 1.0.2)
-  - SwiftValidator (from `https://github.com/jpotts18/SwiftValidator.git`, branch `master`)
+  - SwiftValidator (from `https://github.com/jpotts18/SwiftValidator.git`, tag `4.2.0`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - Alamofire
-    - CreditCardValidator
     - IQKeyboardManagerSwift
     - KVNProgress
     - PopupDialog
     - Shimmer
+  trunk:
+    - Alamofire
 
 EXTERNAL SOURCES:
   BSErrorMessageView:
     :git: https://github.com/BenjaminSarkisyan/BSErrorMessageView.git
+  CreditCardValidator:
+    :git: https://github.com/vitkuzmenko/CreditCardValidator.git
   SwiftValidator:
-    :branch: master
     :git: https://github.com/jpotts18/SwiftValidator.git
+    :tag: 4.2.0
 
 CHECKOUT OPTIONS:
   BSErrorMessageView:
     :commit: e1523069939ac597f9b7a9c615d718f89c071b49
     :git: https://github.com/BenjaminSarkisyan/BSErrorMessageView.git
+  CreditCardValidator:
+    :commit: eabd2e7cc13ee0939e638099b4bedd496da7b0fb
+    :git: https://github.com/vitkuzmenko/CreditCardValidator.git
   SwiftValidator:
-    :commit: 6cff6cac3e02a617f7cf11323e18526a117d5673
     :git: https://github.com/jpotts18/SwiftValidator.git
+    :tag: 4.2.0
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Alamofire: ca8c0de6906873be89d6deec5c8de279e00bf872
   BSErrorMessageView: 67cc7d172995fbc6df602c2b8923f48121ddf7a9
-  CreditCardValidator: 9f0814dd61682c004071a250d89327ca83514a48
+  CreditCardValidator: c0c160051b35bc231dac0be7534b093cb2aba08c
   IQKeyboardManagerSwift: 04e8679f85e496bb2c474eeb9284052f1b3c391c
   KVNProgress: 8167b1f19e2758290c0b6143020ed9dcbb0477a1
   PopupDialog: 75cf955693590b0cb2fdde00223fb65d99c57247
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
-  SwiftValidator: 25ded5ca1f10c05adf57f6ac82a72d28ac8d91af
+  SwiftValidator: 249b6b3ae3b294266c5b9de134d94f18f2d5aa47
 
-PODFILE CHECKSUM: 48ac72b204f3a826cac40da0a7aba27edb9f4d99
+PODFILE CHECKSUM: 6bab72821eca70adb1a6004470417194db9c286c
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.8.4

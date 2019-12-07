@@ -8,6 +8,8 @@
 
 import UIKit
 
+@objcMembers
+@objc(RavePayConfig)
 public class RavePayConfig: NSObject {
     public var publicKey:String?
     public var secretKey:String?
@@ -25,7 +27,4 @@ public class RavePayConfig: NSObject {
         
         return Static.kbManager
     }
-    
-    
-
 }

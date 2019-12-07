@@ -152,13 +152,13 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
     private var billingOverLayView:UIView!
     private var billingAddressOverLayView:UIView!
     private var savedCardOverLayView:UIView!
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         //        IQKeyboardManager.sharedManager().enable = false
         configureView()
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -610,7 +610,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
         button.setTitle("PAY \(amount!.toCountryCurrency(code:  self.currencyCode))", for: .normal)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
         getBanks()
@@ -635,7 +635,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
         validator.unregisterField(billingAddressCity)
     }
     
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         carView.frame = containerView.bounds
         bankView.frame = containerView.bounds
@@ -667,7 +667,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),for: .default)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         self.navigationItem.titleView = getTitleView()
     }
     
@@ -872,7 +872,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
     @objc func cardPayButtonTapped(){
         validator.validate(self)
     }
-    func validationSuccessful() {
+    public func validationSuccessful() {
         // submit the form
         if(isPinMode){
             self.hideOvelay()
@@ -915,7 +915,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
         validator.validate(self)
     }
     
-    func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
+    public func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
         // turn the fields to red
         for (field, error) in errors {
             if let field = field as? UITextField {
@@ -986,23 +986,21 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                 param.merge(["meta":meta])
             }
             if let subAccounts = subAccounts{
-              let subAccountDict =  subAccounts.map { (subAccount) -> [String:String] in
+                  let subAccountDict =  subAccounts.map { (subAccount) -> [String:String] in
                     var dict = ["id":subAccount.id]
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                            case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                 dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                            case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                 
@@ -1061,18 +1059,15 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                        case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                        case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                     
@@ -1180,18 +1175,15 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                        case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                        case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                     
@@ -1241,18 +1233,15 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                        case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                        case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                     
@@ -1301,18 +1290,15 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                        case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                        case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                     
@@ -1365,18 +1351,15 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                        case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                        case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                     
@@ -1430,18 +1413,16 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
                     if let ratio = subAccount.ratio{
                         dict.merge(["transaction_split_ratio":"\(ratio)"])
                     }
-                    if let chargeType = subAccount.charge_type{
-                        switch chargeType{
-                        case .flat :
-                            dict.merge(["transaction_charge_type":"flat"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\(charge)"])
-                            }
-                        case .percentage:
-                            dict.merge(["transaction_charge_type":"percentage"])
-                            if let charge = subAccount.charge{
-                                dict.merge(["transaction_charge":"\((charge / 100))"])
-                            }
+                    
+                    if subAccount.charge_type == .flat {
+                        dict.merge(["transaction_charge_type":"flat"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\(charge)"])
+                        }
+                    }else {
+                        dict.merge(["transaction_charge_type":"percentage"])
+                        if let charge = subAccount.charge{
+                            dict.merge(["transaction_charge":"\((Int(charge) / 100))"])
                         }
                     }
                     
@@ -2214,7 +2195,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
         delegate?.ravePay(self, didSucceedPaymentWithResult: result)
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.bs_hideError()
         if textField == accountBank{
             if let count = self.banks?.count{
@@ -2225,7 +2206,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
             }
         }
     }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
     @objc func textFieldDidChange(textField: UITextField) {
@@ -2262,7 +2243,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
         
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == 13{
             return Constants.ghsMobileNetworks.count
         }else{
@@ -2273,14 +2254,14 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
             }
         }
     }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == 13{
             return Constants.ghsMobileNetworks[row].0
         }else{
             return self.banks?[row].name
         }
     }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 13{
             self.mobileMobileChooseNetwork.text = Constants.ghsMobileNetworks[row].0
             self.mobileMoneyTitle.text = Constants.ghsMobileNetworks[row].1
@@ -2324,7 +2305,7 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
             
         }
     }
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
@@ -2332,21 +2313,21 @@ class RavePayController: UIViewController,RavePayWebControllerDelegate,OTPContro
 }
 
 extension RavePayController: UITableViewDelegate,UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let count = cardList?.count{
             return count
         }else{
             return 0
         }
     }
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath:IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath:IndexPath) {
         if(indexPath.section == 0){
             selectedCard = cardList?[indexPath.row]
-            if (editingStyle == UITableViewCellEditingStyle.delete) {
+            if (editingStyle == UITableViewCell.EditingStyle.delete) {
                 let cards = self.cardList?.filter({ (item) -> Bool in
                     return item["card_token"] != selectedCard!["card_token"]
                 })
@@ -2365,7 +2346,7 @@ extension RavePayController: UITableViewDelegate,UITableViewDataSource{
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = cardSavedTable.dequeueReusableCell(withIdentifier: "cardCell")! as UITableViewCell
         cell.accessoryType = .none
         let card = cardList?[indexPath.row]
@@ -2383,7 +2364,7 @@ extension RavePayController: UITableViewDelegate,UITableViewDataSource{
         }
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedCard = cardList?[indexPath.row]
         
     }

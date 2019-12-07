@@ -17,13 +17,13 @@ class Bank: NSObject,NSCoding {
         super.init()
     }
     
-    func encode(with aCoder: NSCoder){
+    public func encode(with aCoder: NSCoder){
         aCoder.encode(bankCode, forKey: "bankCode")
         aCoder.encode(isInternetBanking, forKey: "isInternetBanking")
         aCoder.encode(name, forKey: "name")
-           }
+    }
     
-    required init(coder aDecoder: NSCoder){
+    required public init(coder aDecoder: NSCoder){
         
         self.bankCode = aDecoder.decodeObject(forKey: "bankCode") as? String
         

@@ -10,13 +10,13 @@ import Foundation
 
 import CommonCrypto
 
-public class TripleDES {
+class TripleDES {
     static func encrypt(string:String, key:String) -> NSData? {
         
-        let keyData: NSData! = (key as NSString).data(using: String.Encoding.utf8.rawValue) as NSData!
+        let keyData: NSData! = (key as NSString).data(using: String.Encoding.utf8.rawValue) as NSData?
         let keyBytes         = keyData.bytes
         
-        let data: NSData! = (string as NSString).data(using: String.Encoding.utf8.rawValue) as NSData!
+        let data: NSData! = (string as NSString).data(using: String.Encoding.utf8.rawValue) as NSData?
         let dataLength    = UInt(data.length)
         let dataBytes     = data.bytes
         

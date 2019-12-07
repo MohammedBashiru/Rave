@@ -30,7 +30,7 @@ class OTPController: UIViewController,UITextFieldDelegate,ValidationDelegate{
     let validator = Validator()
     
     @IBOutlet weak var otpTitle: UILabel!
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         configureView()
     }
@@ -50,19 +50,19 @@ class OTPController: UIViewController,UITextFieldDelegate,ValidationDelegate{
         otpTextField.delegate = self
     }
     
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
     }
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.navigationController?.navigationBar.barTintColor =  RavePayConfig.sharedConfig().themeColor
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),for: .default)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         self.title = "OTP"
     }
     @objc private func continueButtonTapped(){
@@ -143,7 +143,7 @@ class OTPController: UIViewController,UITextFieldDelegate,ValidationDelegate{
             if let res =  result{
                 
                 if let data = res ["data"] as? [String:AnyObject]{
-                    if let flwRef = data["flwRef"] as? String{
+                    if (data["flwRef"] as? String) != nil{
                         if let chargeResponse = data["chargeResponseCode"] as? String{
                             if chargeResponse == "02"{
                                 DispatchQueue.main.async {
@@ -238,12 +238,12 @@ class OTPController: UIViewController,UITextFieldDelegate,ValidationDelegate{
             })
         }
     }
-    func validationSuccessful() {
+    public func validationSuccessful() {
         // submit the form
         docontinueButtonTapped()
     }
     
-    func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
+    public func validationFailed(_ errors:[(Validatable ,ValidationError)]) {
         // turn the fields to red
         for (field, error) in errors {
             if let field = field as? UITextField {
@@ -284,7 +284,7 @@ class OTPController: UIViewController,UITextFieldDelegate,ValidationDelegate{
         }
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.bs_hideError()
         
     }

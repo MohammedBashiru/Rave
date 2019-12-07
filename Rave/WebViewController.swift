@@ -52,7 +52,7 @@ class WebViewController: UIViewController,WKNavigationDelegate,WKUIDelegate {
     var saveCard = false
     var cardNumber:String?
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(webView)
         self.view.addSubview(loadingView)
@@ -79,16 +79,16 @@ class WebViewController: UIViewController,WKNavigationDelegate,WKUIDelegate {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Web"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.navigationController?.navigationBar.barTintColor =  RavePayConfig.sharedConfig().themeColor
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(),for: .default)
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
     }
     
     
@@ -96,12 +96,12 @@ class WebViewController: UIViewController,WKNavigationDelegate,WKUIDelegate {
     func popView(){
         _ = self.navigationController?.dismiss(animated: true, completion: nil)
     }
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    @objc public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         loadingView.isHidden = false
         shimmerView.isShimmering = true
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    @objc public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         // let urlStr : NSString = url!.addingPercentEscapes(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue))! as NSString
         print("doneLoading")
         print(webView.url!.absoluteString)
@@ -116,7 +116,7 @@ class WebViewController: UIViewController,WKNavigationDelegate,WKUIDelegate {
         
     }
     
-    func queryTransaction(){
+    public func queryTransaction(){
         
         if let secret = RavePayConfig.sharedConfig().secretKey ,let  ref = flwRef{
             let param = ["SECKEY":secret,"flw_ref":ref]
@@ -234,7 +234,7 @@ class WebViewController: UIViewController,WKNavigationDelegate,WKUIDelegate {
         loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
-    override func didReceiveMemoryWarning() {
+    @objc override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     

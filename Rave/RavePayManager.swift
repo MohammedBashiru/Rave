@@ -7,32 +7,62 @@
 //
 
 import UIKit
-public enum SubAccountChargeType:String {
-    case flat = "flat" , percentage = "percentage"
+
+@objc(SubAccountChargeType)
+public enum SubAccountChargeType: Int, RawRepresentable {
+    public typealias RawValue = String
+    case flat
+    case percentage
+    
+    public var rawValue: RawValue {
+        switch self {
+        case .flat:
+            return "flat"
+        case .percentage:
+            return "percentage"
+        }
+    }
+    
+    public init(rawValue: RawValue){
+        switch rawValue {
+        case "flat":
+            self = .flat
+        case "percentage":
+            self = .percentage
+        default:
+            self = .flat
+        }
+    }
 }
-public class SubAccount{
+
+@objcMembers
+@objc(SubAccount)
+public class SubAccount: NSObject {
     public let id:String
-    public let ratio:Double?
-    public let charge_type:SubAccountChargeType?
-    public let charge:Double?
+    public let ratio:NSNumber?
+    public var charge_type:SubAccountChargeType = .percentage
+    public let charge:NSNumber?
     
     public init(id:String , ratio:Double?, charge_type:SubAccountChargeType? ,charge:Double?) {
         self.id = id
-        self.ratio = ratio
-        self.charge_type = charge_type
-        self.charge = charge
+        self.ratio = NSNumber(nonretainedObject: ratio)
+        self.charge_type = charge_type!
+        self.charge = NSNumber(nonretainedObject: charge)
     }
 }
-public protocol RavePaymentManagerDelegate:class {
+
+@objc public protocol RavePaymentManagerDelegate:class {
     func ravePaymentManagerDidCancel(_ ravePaymentManager:RavePayManager)
     func ravePaymentManager(_ ravePaymentManager:RavePayManager, didSucceedPaymentWithResult result:[String:AnyObject])
     func ravePaymentManager(_ ravePaymentManager:RavePayManager, didFailPaymentWithResult result:[String:AnyObject])
 }
 
+@objcMembers
+@objc(RavePayManager)
 public class RavePayManager: UIViewController,RavePayControllerDelegate {
     public weak var delegate:RavePaymentManagerDelegate?
     public var email:String?
-    public var transcationRef:String?
+    public var transactionRef:String?
     public var amount:String?
     public var country:String = "NG"
     public var currencyCode:String = "NGN"
@@ -52,14 +82,14 @@ public class RavePayManager: UIViewController,RavePayControllerDelegate {
         guard let email = email else {
             fatalError("Email address is missing")
         }
-        guard let transcationRef = transcationRef else {
+        guard let transcationRef = transactionRef else {
             fatalError("transactionRef is missing")
         }
         
         let identifier = Bundle(identifier: "flutterwave.Rave")
         let storyboard = UIStoryboard(name: "Rave", bundle: identifier)
         let _controller = storyboard.instantiateViewController(withIdentifier: "raveNav") as! UINavigationController
-        let raveController = _controller.childViewControllers[0] as! RavePayController
+        let raveController = _controller.children[0] as! RavePayController
         raveController.email = email
         raveController.merchantTransRef = transcationRef
         raveController.amount = amount

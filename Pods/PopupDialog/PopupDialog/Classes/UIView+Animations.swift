@@ -53,12 +53,12 @@ internal extension UIView {
         animation.duration = duration
         animation.fromValue = layer.presentation()?.opacity
         layer.opacity = value
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         layer.add(animation, forKey: fadeKey)
     }
 
     internal func pv_layoutIfNeededAnimated(duration: CFTimeInterval = 0.08) {
-        UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions(), animations: {
+        UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.layoutIfNeeded()
         }, completion: nil)
     }

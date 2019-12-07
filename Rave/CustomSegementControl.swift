@@ -63,7 +63,7 @@ class CustomSegementControl: UIControl {
         }
     }
     
-    func updateView(){
+    @objc func updateView(){
         buttons.removeAll()
         let titles = buttonTitles.components(separatedBy: ",")
         subviews.forEach { (view) in
@@ -73,7 +73,7 @@ class CustomSegementControl: UIControl {
         for buttonTitle in titles {
             let button = UIButton(type: .system)
             button.setTitle(buttonTitle, for: .normal)
-            let width = self.frame.width / CGFloat(buttonTitles.count)
+            _ = self.frame.width / CGFloat(buttonTitles.count)
             button.setTitleColor(buttonTitleColor, for: .normal)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
             button.titleLabel?.adjustsFontSizeToFitWidth = true

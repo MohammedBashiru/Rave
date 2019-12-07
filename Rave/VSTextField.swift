@@ -33,7 +33,7 @@ public enum TextFieldFormatting {
     case noFormatting
 }
 
-public class VSTextField: UITextField {
+class VSTextField: UITextField {
     
     /**
      Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
